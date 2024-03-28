@@ -21,7 +21,8 @@ app.use(session({
     saveUninitialized:true   //guarda la cookie aunque no haya sido inicializada previamente
 }));
 
-
+//Conexion DB
+const connection = require('./database/db');
 
 app.get('/', (req, res) => {
     res.send('HOLA MUNDO');
