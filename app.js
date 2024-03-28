@@ -10,7 +10,7 @@ dotenv.config({path: './env/.env'});
 app.use('/resources', express.static('public'));  //directorio publico para archivos estaticos.
 app.use('/resources', express.static(__dirname + '/public'));
 
-app.set('view engine', 'ejs');    //motor de vistas
+app.set('view engine', 'ejs');    //motor de vistas, express buscara en carpeta views
 
 const bcryptjs = require('bcryptjs');   //criptografia de contraseñas
 
@@ -24,8 +24,10 @@ app.use(session({
 //Conexion DB
 const connection = require('./database/db');
 
+//Rutas 
+
 app.get('/', (req, res) => {
-    res.send('HOLA MUNDO');
+    res.render('index.ejs', {msg: 'Lautaro'});
 });
 
 app.listen(3000, (req, res)=>{
