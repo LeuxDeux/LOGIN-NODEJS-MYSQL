@@ -79,7 +79,11 @@ app.post('/auth', async (req, res)=> {
             }else{
                 req.session.loggedin = true;
                 req.session.name = results[0].name;
-                res.render('login', {
+                req.session.rol = results[0].rol;
+                if(req.session.rol === 'admin'){
+                    res.render('dashboard-admin', {
+                    login: true,
+                    name: req.session.name,
                     alert: true,
                     alertTitle: "Conexion Exitosa",
                     alertMessage: "¡Login Correcto!",
@@ -87,7 +91,21 @@ app.post('/auth', async (req, res)=> {
                     showConfirmButton: false,
                     timer: 1500,
                     ruta: ''
-                });
+                    });
+                }else{
+                    res.render('dashboard-entry', {
+                    login: true,
+                    name: req.session.name,
+                    alert: true,
+                    alertTitle: "Conexion Exitosa",
+                    alertMessage: "¡Login Correcto!",
+                    alertIcon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    ruta: ''
+                    });
+                }
+                
             }
         });
     }else{
@@ -117,6 +135,31 @@ app.get('/', (req, res)=>{
         });
     }
 });
+
+
+//deprecated
+// app.get('/', (req, res)=>{
+//     if(req.session.loggedin){
+//         if(req.session.rol === 'admin'){
+//             res.render('index', {
+//                 login: true,
+//                 name: req.session.name
+//             });
+//         }else if(req.session.rol === 'data entry'){
+//             res.render('dashboard-entry', {
+//                 login: true,
+//                 name: req.session.name
+//             });
+//         }else{
+//             res.redirect('login');
+//         }
+//     }else{
+//         res.render('index', {
+//             login: false,
+//             name: 'Debes iniciar sesión'
+//         });
+//     }
+// });
 
 app.get('/logout', (req, res)=>{
     req.session.destroy(()=>{
